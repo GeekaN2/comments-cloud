@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Comments test</title>
+</head>
+<body>
+    <div id="app">
+        <input type="button" id="add-comment" value="add comment" v-on:click="add_comment">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            methods: {
+                add_comment: function(){
+
+                },
+                send_json: function(){
+
+                }
+            },
+        });
+        
+        const socket = io('http://localhost:3000');
+        socket.on('hi', function(data) {
+            console.log(JSON.stringify(data));
+        })
+    </script>
+</body>
+</html>
