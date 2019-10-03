@@ -15,11 +15,21 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
     <script>
+        
+        const socket = io.connect('http://localhost:3000');
+
         var app = new Vue({
             el: '#app',
             methods: {
                 add_comment: function(){
-
+                    socket.emit('req', {
+                        type: "add",
+                        data: {
+                            username: "jocker",
+                            text: "Lorem ipsum dolor sit amet",
+                            parent_id: null
+                        }
+                    })
                 },
                 send_json: function(){
 
@@ -27,10 +37,11 @@
             },
         });
         
-        const socket = io('http://localhost:3000');
-        socket.on('hi', function(data) {
+        
+        /*socket.on('hi', function(data) {
+            socket.emit('lol', {text: "yeah, really"});
             console.log(JSON.stringify(data));
-        })
+        });*/
     </script>
 </body>
 </html>
