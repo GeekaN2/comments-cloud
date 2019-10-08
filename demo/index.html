@@ -9,7 +9,24 @@
 </head>
 <body>
     <div id="app">
-        <input type="button" id="add-comment" value="add comment" v-on:click="add_comment">
+        <form action="addComment">
+            <input type="text" class="nice-input" v-model="username" placeholder="Username">
+            <input type="text" class="nice-input" v-model="text" placeholder="Some text">
+            <input type="button" id="add-comment" value="add comment" v-on:click="add_comment">
+        </form>
+        <div class="code-block">
+            <h2 class="text-center">How your comment looks like</h2>
+            <pre>
+                comment = {
+                    _id: ObjectId(),
+                    username: {{username || "\'\'"}},
+                    text: {{text || "\'\'"}},
+                    parent_id: null,
+                    date: new Date(),
+                    rating: 0
+                }
+            </pre>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -20,13 +37,17 @@
 
         var app = new Vue({
             el: '#app',
+            data: {
+                username: '',
+                text: '',
+            },
             methods: {
                 add_comment: function(){
                     socket.emit('req', {
                         type: "add",
                         data: {
-                            username: "jocker",
-                            text: "Lorem ipsum dolor sit amet",
+                            username: this.username,
+                            text: this.text,
                             parent_id: null
                         }
                     })

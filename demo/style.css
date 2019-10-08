@@ -18,3 +18,19 @@ body {
     border-radius: 0.5rem;
     color: #33397d;
 }
+
+.nice-input {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border: 3.5px solid #33397d;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.code-block {
+    margin: 1rem auto;
+    width: 50%;
+}
