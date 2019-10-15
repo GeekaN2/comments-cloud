@@ -1,15 +1,15 @@
-Comments-cloud
-# comments-cloud
+# Comments cloud
 
-### Как врубить
+### How to install and run
 
 ```
 cd cloud
 npm i
+npm i -D
 nodemon server.js
 ```
 
-Также нужен ключ от БД, сохранить его в `cloud/env/mongodb_key.txt`
-### Демо
+You also need a DB key, insert it into `cloud/env/mongodb_key.txt`
+### Demo
 
-запустить `index.html`
+Run `index.html`

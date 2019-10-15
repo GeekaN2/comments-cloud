@@ -11,15 +11,15 @@
     <div id="app">
         <form action="addComment">
             <h2 class="text-center">Add comment</h2>
-            <input type="text" class="nice-input" v-model="username" placeholder="Username">
-            <input type="text" class="nice-input" v-model="text" placeholder="Some text">
+            <input type="text" class="nice-input" v-model="add_username" placeholder="Username">
+            <input type="text" class="nice-input" v-model="add_text" placeholder="Some text">
             <div class="code-block">
                 <h2 class="text-center">How your comment looks like</h2>
                 <pre>
                     comment = {
                         _id: ObjectId(),
-                        username: {{username || "\'\'"}},
-                        text: {{text || "\'\'"}},
+                        username: {{add_username || "\'\'"}},
+                        text: {{add_text || "\'\'"}},
                         parent_id: null,
                         date: new Date(),
                         rating: 0
@@ -27,12 +27,21 @@
                 </pre>
             </div>
             <input type="button" class="event" value="Add comment" v-on:click="add_comment">
+
             <h2 class="text-center">Get {{ limit || 'all' }} comments</h2>
             <input type="text" class="nice-input" v-model="limit" placeholder="Number of comments">
             <input type="button" class="event" value="Get comments" v-on:click="get_comments">
-            <h2 class="text-center">Delete {{ id }} comment</h2>
-            <input type="text" class="nice-input" v-model="id" placeholder="Comment id">
+
+
+            <h2 class="text-center">Delete {{ delete_id }} comment</h2>
+            <input type="text" class="nice-input" v-model="delete_id" placeholder="Comment id">
             <input type="button" class="event" value="Delete comment" v-on:click="delete_comment">
+
+            <h2 class="text-center">Update {{ update_id }}</h2>
+            <input type="text" class="nice-input" v-model="update_id" placeholder="Comment id">
+            <input type="text" class="nice-input" v-model="update_text" placeholder="New text">
+            <input type="text" class="nice-input" v-model="update_rating" placeholder="New rating">
+            <input type="button" class="event" value="Update comment" v-on:click="update_comment">
         </form>
         
     </div>
@@ -46,18 +55,21 @@
         var app = new Vue({
             el: '#app',
             data: {
-                username: '',
-                text: '',
+                add_username: '',
+                add_text: '',
                 limit: '',
-                id: ''
+                delete_id: '',
+                update_id: '',
+                update_text: '',
+                update_rating: '',
             },
             methods: {
                 add_comment: function(){
                     socket.emit('req', {
                         type: "add",
                         data: {
-                            username: this.username,
-                            text: this.text,
+                            username: this.add_username,
+                            text: this.add_text,
                             parent_id: null
                         }
                     })
@@ -76,7 +88,17 @@
                     socket.emit('req', {
                         type: "delete",
                         data: { 
-                            _id: this.id
+                            _id: this.delete_id
+                        },
+                    })
+                },
+                update_comment: function(){
+                    socket.emit('req', {
+                        type: "update",
+                        data: { 
+                            _id: this.update_id,
+                            text: this.update_text,
+                            rating: Number(this.update_rating)
                         },
                     })
                 },
@@ -104,6 +126,14 @@
             if (data.isDeleted){
                 alert('Коммент удалён');
             } else
+                alert(data.err);
+        })
+
+        socket.on('isUpdated', function(data){
+            console.log(data);
+            if (data.isUpdated)
+                alert('Коммент обновлён');
+            else
                 alert(data.err);
         })
 

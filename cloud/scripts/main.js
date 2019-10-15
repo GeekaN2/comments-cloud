@@ -5,8 +5,6 @@ function main(server) {
     var io = require('socket.io')(server);
     io.on('connection', function (socket) {
         console.log('connection');
-
-
         socket.on('req', function (data) {
 
             if (data.type === 'add') {
@@ -28,6 +26,12 @@ function main(server) {
                     console.log(answer);
                     socket.emit('isGot', answer);
                 });
+            }
+
+            if (data.type === 'update') {
+                updateComment(data.data).then(answer => {
+                    socket.emit('isUpdated', answer);
+                })
             }
         })
 
@@ -94,7 +98,7 @@ function deleteComment(data) {
             mongodb.connect(async function (err, client) {
                 var db = client.db('comments-cloud'); // API key
                 var collection = db.collection("some_api_key");
-                await collection.deleteOne({"_id": ObjectId(data._id)}, function(err, result) {
+                await collection.deleteOne({"_id": ObjectId(data._id)}, function(err, res) {
                     if (err) 
                         throw (err);
                     console.log("Document deleted");
@@ -154,4 +158,49 @@ function getComments(data) {
 
 }
 
+function updateComment(data) {
+    // validate data
+    let isValid = false;
+    let regExpId = new RegExp("^[0-9a-fA-F]{24}$");
+    if (regExpId.test(data._id))
+        isValid = true;
+
+    // do something with data
+    let newValues = {};
+    for (let i in data)
+        if (i != '_id')
+            newValues[i] = data[i];
+    console.log(data, newValues);
+    
+    // get Data
+    return new Promise((resolve, reject) => {
+        var answer = {
+            isUpdated: false,
+            err: ''
+        };
+        if (isValid) {
+            mongodb.connect(async function (err, client) {
+                if (err)
+                    reject(err);
+
+                var db = client.db('comments-cloud'); // API key
+                var collection = db.collection("some_api_key");
+
+                // limit number of comments and sort them by some field
+                // return comments
+
+                await collection.updateOne({"_id": ObjectId(data._id)}, { $set: newValues}, function(err, res){
+                    if (err) throw err;
+                    answer.isUpdated = true;
+                    console.log('Update comment');
+                    client.close();
+                    resolve(answer);
+                });
+            });
+        } else {
+            answer.err = 'Invalid data';
+            resolve(answer);
+        }
+    });
+}
 module.exports = main;
