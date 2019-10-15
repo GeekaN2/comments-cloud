@@ -1,15 +1,15 @@
 @import "reset.css";
 
 body {
+    padding: 0.5rem 0;
     width: 100%;
     font-family: Helvetica, sans-serif;
     font-size: 22px;
 }
 
-
-#add-comment {
+.event {
     display: block;
-    margin: 3rem auto 0 auto;
+    margin: 1.5rem auto 4rem auto;
     padding: 0.5rem 3rem;
     font-size: 2rem;
     outline: none;
@@ -17,6 +17,17 @@ body {
     border: 3.5px solid #33397d;
     border-radius: 0.5rem;
     color: #33397d;
+    transition: 0.15s;
+}
+
+.event:hover {
+    border-color: #6168af;
+    color: #6168af;
+}
+
+.event:active {
+    border-color: #000;
+    color: #000;
 }
 
 .nice-input {
