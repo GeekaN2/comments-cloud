@@ -1,0 +1,47 @@
+@import "reset.css";
+
+body {
+    padding: 0.5rem 0;
+    width: 100%;
+    font-family: Helvetica, sans-serif;
+    font-size: 22px;
+}
+
+.event {
+    display: block;
+    margin: 1.5rem auto 4rem auto;
+    padding: 0.5rem 3rem;
+    font-size: 2rem;
+    outline: none;
+    background: #fff;
+    border: 3.5px solid #33397d;
+    border-radius: 0.5rem;
+    color: #33397d;
+    transition: 0.15s;
+}
+
+.event:hover {
+    border-color: #6168af;
+    color: #6168af;
+}
+
+.event:active {
+    border-color: #000;
+    color: #000;
+}
+
+.nice-input {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border: 3.5px solid #33397d;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.code-block {
+    margin: 1rem auto;
+    width: 50%;
+}
